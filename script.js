@@ -12551,3 +12551,4704 @@ document.addEventListener(
     }
 
 );
+
+// ===========================
+// OlyGYM - script.js (41-ci hissə)
+// First Launch Wizard (7 Günlük Plan)
+// ===========================
+
+
+// ---------- First Launch ----------
+
+let firstLaunch = JSON.parse(
+
+    localStorage.getItem(
+
+        "olygym-first-launch"
+
+    )
+
+) || {
+
+    completed:false
+
+};
+
+
+
+// ---------- Days ----------
+
+const weekDays = [
+
+    "Bazar ertəsi",
+
+    "Çərşənbə axşamı",
+
+    "Çərşənbə",
+
+    "Cümə axşamı",
+
+    "Cümə",
+
+    "Şənbə",
+
+    "Bazar"
+
+];
+
+
+
+// ---------- Open Wizard ----------
+
+function openFirstLaunchWizard(){
+
+    if(
+
+        firstLaunch.completed
+
+    ){
+
+        return;
+
+    }
+
+
+    const wizard =
+
+        document.getElementById(
+
+            "firstLaunchWizard"
+
+        );
+
+
+    if(!wizard){
+
+        return;
+
+    }
+
+
+    wizard.classList.remove(
+
+        "hidden"
+
+    );
+
+
+    renderWeekBoxes();
+
+}
+
+
+
+// ---------- Render Days ----------
+
+function renderWeekBoxes(){
+
+    const container =
+
+        document.getElementById(
+
+            "weekBoxes"
+
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    weekDays.forEach(
+
+        (day,index)=>{
+
+
+            const box =
+
+                document.createElement(
+
+                    "div"
+
+                );
+
+
+            box.className=
+
+                "week-box";
+
+
+            box.dataset.day=index;
+
+
+            box.innerHTML=
+
+            `
+
+            <h3>
+
+                ${day}
+
+            </h3>
+
+
+            <p>
+
+                Plan seç
+
+            </p>
+
+            `;
+
+
+            container.appendChild(
+
+                box
+
+            );
+
+
+        }
+
+    );
+
+
+    bindWeekBoxes();
+
+}
+
+
+
+// ---------- Click ----------
+
+function bindWeekBoxes(){
+
+    document
+
+    .querySelectorAll(
+
+        ".week-box"
+
+    )
+
+    .forEach(box=>{
+
+
+        box.addEventListener(
+
+            "click",
+
+            ()=>{
+
+
+                openDayPlanner(
+
+                    Number(
+
+                        box.dataset.day
+
+                    )
+
+                );
+
+
+            }
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Day Planner ----------
+
+function openDayPlanner(day){
+
+    currentPlanningDay = day;
+
+
+    document
+
+    .getElementById(
+
+        "musclePlanner"
+
+    )
+
+    ?.classList
+
+    .remove(
+
+        "hidden"
+
+    );
+
+
+}
+
+
+
+// ---------- Finish ----------
+
+function finishFirstLaunch(){
+
+    firstLaunch.completed=true;
+
+
+    localStorage.setItem(
+
+        "olygym-first-launch",
+
+        JSON.stringify(
+
+            firstLaunch
+
+        )
+
+    );
+
+
+    document
+
+    .getElementById(
+
+        "firstLaunchWizard"
+
+    )
+
+    ?.classList
+
+    .add(
+
+        "hidden"
+
+    );
+
+
+    showNotification(
+
+        "7 günlük plan hazırdır."
+
+    );
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        openFirstLaunchWizard();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (42-ci hissə)
+// Muscle Selection (7 Günlük Plan)
+// ===========================
+
+
+// ---------- Current Planning ----------
+
+let currentPlanningDay = null;
+
+let selectedMuscle = null;
+
+
+
+// ---------- Muscle List ----------
+
+const bodyMuscles = [
+
+    {
+        id:"chest",
+        title:"Sinə"
+    },
+
+    {
+        id:"back",
+        title:"Kürək"
+    },
+
+    {
+        id:"shoulders",
+        title:"Çiyin"
+    },
+
+    {
+        id:"biceps",
+        title:"Biceps"
+    },
+
+    {
+        id:"triceps",
+        title:"Triceps"
+    },
+
+    {
+        id:"forearm",
+        title:"Bilək"
+    },
+
+    {
+        id:"abs",
+        title:"Qarın"
+    },
+
+    {
+        id:"legs",
+        title:"Ayaq"
+    },
+
+    {
+        id:"calves",
+        title:"Baldır"
+    },
+
+    {
+        id:"glutes",
+        title:"Omba"
+    }
+
+];
+
+
+
+// ---------- Render Muscles ----------
+
+function renderMusclePlanner(){
+
+    const container =
+
+        document.getElementById(
+
+            "muscleList"
+
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+
+    bodyMuscles.forEach(muscle=>{
+
+
+        const card =
+
+            document.createElement(
+
+                "div"
+
+            );
+
+
+        card.className =
+
+            "muscle-card";
+
+
+        card.dataset.muscle =
+
+            muscle.id;
+
+
+        card.innerHTML =
+
+        `
+
+        <h3>
+
+            ${muscle.title}
+
+        </h3>
+
+        <p>
+
+            Məşqlərə bax
+
+        </p>
+
+        `;
+
+
+        container.appendChild(card);
+
+
+    });
+
+
+    bindMuscleCards();
+
+}
+
+
+
+// ---------- Card Click ----------
+
+function bindMuscleCards(){
+
+    document
+
+    .querySelectorAll(
+
+        ".muscle-card"
+
+    )
+
+    .forEach(card=>{
+
+
+        card.addEventListener(
+
+            "click",
+
+            ()=>{
+
+
+                selectedMuscle =
+
+                    card.dataset.muscle;
+
+
+                openExercisePlanner(
+
+                    selectedMuscle
+
+                );
+
+
+            }
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Planner ----------
+
+function openExercisePlanner(
+
+    muscle
+
+){
+
+    document
+
+    .getElementById(
+
+        "exercisePlanner"
+
+    )
+
+    ?.classList
+
+    .remove(
+
+        "hidden"
+
+    );
+
+
+    renderExercisePlanner(
+
+        muscle
+
+    );
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        renderMusclePlanner();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (43-cü hissə)
+// Exercise Planner (Set / Reps / Calories)
+// ===========================
+
+
+// ---------- Planned Exercises ----------
+
+let plannedExercises = [];
+
+
+
+// ---------- Render Exercises ----------
+
+function renderExercisePlanner(muscle){
+
+    const container =
+
+        document.getElementById(
+
+            "exerciseList"
+
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    const exercises =
+
+        exerciseLibrary[muscle] || [];
+
+
+
+    exercises.forEach(exercise=>{
+
+
+        const card =
+
+            document.createElement(
+
+                "div"
+
+            );
+
+
+        card.className =
+
+            "exercise-card";
+
+
+        card.innerHTML =
+
+        `
+
+        <h3>${exercise.name}</h3>
+
+        <p>
+
+            🔥 ${exercise.kcal} kcal / set
+
+        </p>
+
+        <label>
+
+            Set
+
+        </label>
+
+        <input
+
+            type="number"
+
+            min="1"
+
+            value="3"
+
+            class="exercise-sets"
+
+        >
+
+
+        <label>
+
+            Təkrar
+
+        </label>
+
+        <input
+
+            type="number"
+
+            min="1"
+
+            value="10"
+
+            class="exercise-reps"
+
+        >
+
+
+        <button
+
+            class="saveExercise"
+
+            data-name="${exercise.name}"
+
+            data-kcal="${exercise.kcal}"
+
+        >
+
+            Seç
+
+        </button>
+
+        `;
+
+
+        container.appendChild(card);
+
+
+    });
+
+
+    bindExerciseButtons();
+
+}
+
+
+
+// ---------- Save Exercise ----------
+
+function bindExerciseButtons(){
+
+    document
+
+    .querySelectorAll(
+
+        ".saveExercise"
+
+    )
+
+    .forEach(button=>{
+
+
+        button.addEventListener(
+
+            "click",
+
+            ()=>{
+
+
+                const card =
+
+                    button.parentElement;
+
+
+                const sets =
+
+                    Number(
+
+                        card.querySelector(
+
+                            ".exercise-sets"
+
+                        ).value
+
+                    );
+
+
+                const reps =
+
+                    Number(
+
+                        card.querySelector(
+
+                            ".exercise-reps"
+
+                        ).value
+
+                    );
+
+
+                plannedExercises.push({
+
+                    name:
+
+                        button.dataset.name,
+
+
+                    muscle:
+
+                        selectedMuscle,
+
+
+                    sets,
+
+                    reps,
+
+
+                    calories:
+
+                        Number(
+
+                            button.dataset.kcal
+
+                        ) * sets
+
+                });
+
+
+                updateSelectedExercises();
+
+
+                showNotification(
+
+                    "Məşq əlavə edildi."
+
+                );
+
+
+            }
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Selected ----------
+
+function updateSelectedExercises(){
+
+    const total =
+
+        document.getElementById(
+
+            "selectedWorkoutCount"
+
+        );
+
+
+    if(total){
+
+        total.textContent =
+
+            plannedExercises.length;
+
+    }
+
+            }
+
+// ===========================
+// OlyGYM - script.js (44-cü hissə)
+// Save Day Plan + Weekly Planner
+// ===========================
+
+
+// ---------- Save Current Day ----------
+
+function saveCurrentDayPlan(){
+
+    if(
+
+        currentPlanningDay === null
+
+    ){
+
+        showNotification(
+
+            "Əvvəlcə gün seç."
+
+        );
+
+        return;
+
+    }
+
+
+    const dayKey =
+
+        Object.keys(
+
+            weeklySchedule
+
+        )[
+
+            currentPlanningDay
+
+        ];
+
+
+
+    weeklySchedule[dayKey] =
+
+        plannedExercises.map(
+
+            exercise=>({
+
+                ...exercise,
+
+                completed:false
+
+            })
+
+        );
+
+
+    saveWeeklySchedule();
+
+
+    renderWeeklySchedule();
+
+
+    plannedExercises = [];
+
+
+    updateSelectedExercises();
+
+
+    showNotification(
+
+        "Günün proqramı yadda saxlanıldı."
+
+    );
+
+}
+
+
+
+// ---------- Save Button ----------
+
+function bindSaveDayButton(){
+
+    const button =
+
+        document.getElementById(
+
+            "saveDayPlan"
+
+        );
+
+
+    if(!button){
+
+        return;
+
+    }
+
+
+    button.addEventListener(
+
+        "click",
+
+        saveCurrentDayPlan
+
+    );
+
+}
+
+
+
+// ---------- Planner Summary ----------
+
+function updatePlannerSummary(){
+
+    const totalExercises =
+
+        document.getElementById(
+
+            "plannerExerciseCount"
+
+        );
+
+
+    const totalCalories =
+
+        document.getElementById(
+
+            "plannerCalories"
+
+        );
+
+
+    if(totalExercises){
+
+        totalExercises.textContent =
+
+            plannedExercises.length;
+
+    }
+
+
+    if(totalCalories){
+
+        const calories =
+
+            plannedExercises.reduce(
+
+                (sum,item)=>
+
+                sum + item.calories,
+
+                0
+
+            );
+
+
+        totalCalories.textContent =
+
+            calories +
+
+            " kcal";
+
+    }
+
+}
+
+
+
+// ---------- Override Selected Update ----------
+
+const oldUpdateSelectedExercises =
+
+    updateSelectedExercises;
+
+
+
+updateSelectedExercises = function(){
+
+    oldUpdateSelectedExercises();
+
+
+    updatePlannerSummary();
+
+};
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindSaveDayButton();
+
+
+        updatePlannerSummary();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (45-ci hissə)
+// Workout Session + Rest Timer
+// ===========================
+
+
+// ---------- Workout Session ----------
+
+let session = {
+
+    active:false,
+
+    currentExercise:0,
+
+    currentSet:1,
+
+    restSeconds:90
+
+};
+
+
+
+// ---------- Start Planned Workout ----------
+
+function startPlannedWorkout(day){
+
+    const exercises =
+
+        weeklySchedule[day];
+
+
+    if(
+
+        !exercises ||
+
+        exercises.length===0
+
+    ){
+
+        showNotification(
+
+            "Bu gün üçün plan yoxdur."
+
+        );
+
+        return;
+
+    }
+
+
+    session.active = true;
+
+    session.currentExercise = 0;
+
+    session.currentSet = 1;
+
+
+    openWorkoutExercise();
+
+}
+
+
+
+// ---------- Open Exercise ----------
+
+function openWorkoutExercise(){
+
+    const day =
+
+        Object.keys(
+
+            weeklySchedule
+
+        )[currentPlanningDay];
+
+
+    const exercise =
+
+        weeklySchedule[day][
+
+            session.currentExercise
+
+        ];
+
+
+    document.getElementById(
+
+        "activeExercise"
+
+    ).textContent =
+
+        exercise.name;
+
+
+    document.getElementById(
+
+        "activeSets"
+
+    ).textContent =
+
+        `${session.currentSet}/${exercise.sets}`;
+
+
+}
+
+
+
+// ---------- Finish Set ----------
+
+function finishWorkoutSet(){
+
+    const day =
+
+        Object.keys(
+
+            weeklySchedule
+
+        )[currentPlanningDay];
+
+
+    const exercise =
+
+        weeklySchedule[day][
+
+            session.currentExercise
+
+        ];
+
+
+    if(
+
+        session.currentSet <
+
+        exercise.sets
+
+    ){
+
+        session.currentSet++;
+
+        startRestTimer();
+
+        openWorkoutExercise();
+
+        return;
+
+    }
+
+
+    session.currentExercise++;
+
+
+    if(
+
+        session.currentExercise >=
+
+        weeklySchedule[day].length
+
+    ){
+
+        finishWorkoutSession();
+
+        return;
+
+    }
+
+
+    session.currentSet = 1;
+
+    startRestTimer();
+
+    openWorkoutExercise();
+
+}
+
+
+
+// ---------- Rest Timer ----------
+
+let restInterval = null;
+
+
+
+function startRestTimer(){
+
+    let time =
+
+        session.restSeconds;
+
+
+    const timer =
+
+        document.getElementById(
+
+            "restTimer"
+
+        );
+
+
+    clearInterval(
+
+        restInterval
+
+    );
+
+
+    restInterval =
+
+        setInterval(()=>{
+
+
+            if(timer){
+
+                timer.textContent =
+
+                    time +
+
+                    " s";
+
+            }
+
+
+            time--;
+
+
+            if(time < 0){
+
+                clearInterval(
+
+                    restInterval
+
+                );
+
+
+                showNotification(
+
+                    "Fasilə bitdi!"
+
+                );
+
+            }
+
+
+        },1000);
+
+}
+
+
+
+// ---------- Set Button ----------
+
+function bindWorkoutButtons(){
+
+    const button =
+
+        document.getElementById(
+
+            "finishSet"
+
+        );
+
+
+    if(button){
+
+        button.addEventListener(
+
+            "click",
+
+            finishWorkoutSet
+
+        );
+
+    }
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindWorkoutButtons();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (46-cı hissə)
+// Smart Weekly Plan Generator
+// ===========================
+
+
+// ---------- Smart Plan ----------
+
+function generateBestWeeklyPlan(){
+
+    const goal =
+
+        (profile.goal || "")
+
+        .toLowerCase();
+
+
+
+    const plan = {
+
+        monday:[],
+
+        tuesday:[],
+
+        wednesday:[],
+
+        thursday:[],
+
+        friday:[],
+
+        saturday:[],
+
+        sunday:[]
+
+    };
+
+
+
+    // ---------- Muscle Gain ----------
+
+    if(
+
+        goal.includes("əzələ")
+
+        ||
+
+        goal.includes("muscle")
+
+    ){
+
+        plan.monday = ["Sinə","Triceps"];
+
+        plan.tuesday = ["Kürək","Biceps"];
+
+        plan.wednesday = ["Ayaq"];
+
+        plan.thursday = ["Çiyin"];
+
+        plan.friday = ["Sinə","Qarın"];
+
+        plan.saturday = ["Kürək","Ayaq"];
+
+        plan.sunday = ["İstirahət"];
+
+    }
+
+
+
+    // ---------- Weight Loss ----------
+
+    else if(
+
+        goal.includes("arıqla")
+
+        ||
+
+        goal.includes("fat")
+
+    ){
+
+        plan.monday = ["Full Body"];
+
+        plan.tuesday = ["Kardio"];
+
+        plan.wednesday = ["Ayaq"];
+
+        plan.thursday = ["Full Body"];
+
+        plan.friday = ["Qarın"];
+
+        plan.saturday = ["Kardio"];
+
+        plan.sunday = ["İstirahət"];
+
+    }
+
+
+
+    // ---------- Default ----------
+
+    else{
+
+        plan.monday = ["Sinə"];
+
+        plan.tuesday = ["Kürək"];
+
+        plan.wednesday = ["Ayaq"];
+
+        plan.thursday = ["Çiyin"];
+
+        plan.friday = ["Qol"];
+
+        plan.saturday = ["Qarın"];
+
+        plan.sunday = ["İstirahət"];
+
+    }
+
+
+
+    Object.assign(
+
+        weeklySchedule,
+
+        plan
+
+    );
+
+
+    saveWeeklySchedule();
+
+
+    renderWeeklySchedule();
+
+
+    showNotification(
+
+        "Ən yaxşı həftəlik plan yaradıldı."
+
+    );
+
+}
+
+
+
+// ---------- Smart Button ----------
+
+function bindSmartPlanButton(){
+
+    const button =
+
+        document.getElementById(
+
+            "generateBestPlan"
+
+        );
+
+
+    if(
+
+        !button
+
+    ){
+
+        return;
+
+    }
+
+
+    button.addEventListener(
+
+        "click",
+
+        generateBestWeeklyPlan
+
+    );
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindSmartPlanButton();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (47-ci hissə)
+// Workout Statistics Dashboard
+// ===========================
+
+
+// ---------- Dashboard ----------
+
+function updateDashboard(){
+
+    updateWorkoutCounter();
+
+    updateCaloriesCounter();
+
+    updateWaterCounter();
+
+    updateStreakCounter();
+
+    updateWeeklyCompletion();
+
+}
+
+
+
+// ---------- Workout Counter ----------
+
+function updateWorkoutCounter(){
+
+    const element =
+
+        document.getElementById(
+
+            "dashboardWorkouts"
+
+        );
+
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.textContent =
+
+        workoutHistory.length;
+
+}
+
+
+
+// ---------- Calories ----------
+
+function updateCaloriesCounter(){
+
+    const element =
+
+        document.getElementById(
+
+            "dashboardCalories"
+
+        );
+
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.textContent =
+
+        stats.calories +
+
+        " kcal";
+
+}
+
+
+
+// ---------- Water ----------
+
+function updateWaterCounter(){
+
+    const element =
+
+        document.getElementById(
+
+            "dashboardWater"
+
+        );
+
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.textContent =
+
+        waterData.amount +
+
+        " ml";
+
+}
+
+
+
+// ---------- Streak ----------
+
+function updateStreakCounter(){
+
+    const element =
+
+        document.getElementById(
+
+            "dashboardStreak"
+
+        );
+
+
+    if(!element){
+
+        return;
+
+    }
+
+
+    element.textContent =
+
+        stats.streak +
+
+        " gün";
+
+}
+
+
+
+// ---------- Weekly Completion ----------
+
+function updateWeeklyCompletion(){
+
+    const progress =
+
+        document.getElementById(
+
+            "weeklyCompletion"
+
+        );
+
+
+    if(!progress){
+
+        return;
+
+    }
+
+
+    let total = 0;
+
+    let completed = 0;
+
+
+    Object.values(
+
+        weeklySchedule
+
+    ).forEach(day=>{
+
+
+        if(
+
+            Array.isArray(day)
+
+        ){
+
+            total += day.length;
+
+
+            day.forEach(item=>{
+
+
+                if(
+
+                    item.completed
+
+                ){
+
+                    completed++;
+
+                }
+
+
+            });
+
+        }
+
+
+    });
+
+
+    const percent =
+
+        total === 0
+
+        ?
+
+        0
+
+        :
+
+        Math.round(
+
+            completed
+
+            /
+
+            total
+
+            *
+
+            100
+
+        );
+
+
+    progress.style.width =
+
+        percent +
+
+        "%";
+
+
+    progress.textContent =
+
+        percent +
+
+        "%";
+
+}
+
+
+
+// ---------- Refresh ----------
+
+setInterval(
+
+    updateDashboard,
+
+    5000
+
+);
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        updateDashboard();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (48-ci hissə)
+// Motivation Screen (2.7 Seconds)
+// ===========================
+
+
+// ---------- Motivation Quotes ----------
+
+const motivationQuotes = [
+
+    "Bu gün zəhmət çək, sabah nəticəsini gör.",
+
+    "Kiçik addımlar böyük uğurlar gətirir.",
+
+    "Sənin yeganə rəqibin dünənki özünsən.",
+
+    "Heç vaxt təslim olma!",
+
+    "Güc əzələdə deyil, iradədədir.",
+
+    "Məqsədinə hər gün bir addım yaxınlaş.",
+
+    "Bu gün başla, sabah gec ola bilər."
+
+];
+
+
+
+// ---------- Show Screen ----------
+
+function showMotivationScreen(){
+
+    const screen =
+
+        document.getElementById(
+
+            "motivationScreen"
+
+        );
+
+
+    const text =
+
+        document.getElementById(
+
+            "motivationText"
+
+        );
+
+
+    if(
+
+        !screen ||
+
+        !text
+
+    ){
+
+        return;
+
+    }
+
+
+    const random =
+
+        Math.floor(
+
+            Math.random()
+
+            *
+
+            motivationQuotes.length
+
+        );
+
+
+    text.textContent =
+
+        motivationQuotes[random];
+
+
+    screen.classList.remove(
+
+        "hidden"
+
+    );
+
+
+    setTimeout(()=>{
+
+
+        screen.classList.add(
+
+            "hidden"
+
+        );
+
+
+    },2700);
+
+}
+
+
+
+// ---------- Show Once ----------
+
+function initializeMotivation(){
+
+    const today =
+
+        new Date()
+
+        .toISOString()
+
+        .split("T")[0];
+
+
+    const last =
+
+        localStorage.getItem(
+
+            "olygym-last-motivation"
+
+        );
+
+
+    if(
+
+        last !== today
+
+    ){
+
+        localStorage.setItem(
+
+            "olygym-last-motivation",
+
+            today
+
+        );
+
+
+        showMotivationScreen();
+
+    }
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        initializeMotivation();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (49-cu hissə)
+// Body Map (Front / Back Muscle Selector)
+// ===========================
+
+
+// ---------- Body Map ----------
+
+const bodyMapMuscles = {
+
+    chest:"Sinə",
+
+    back:"Kürək",
+
+    shoulders:"Çiyin",
+
+    biceps:"Biceps",
+
+    triceps:"Triceps",
+
+    forearm:"Bilək",
+
+    abs:"Qarın",
+
+    obliques:"Yan qarın",
+
+    traps:"Trapetsiya",
+
+    glutes:"Omba",
+
+    quads:"Ön bud",
+
+    hamstrings:"Arxa bud",
+
+    calves:"Baldır"
+
+};
+
+
+
+// ---------- Muscle Click ----------
+
+function selectBodyMuscle(muscle){
+
+    selectedMuscle = muscle;
+
+
+    const title =
+
+        bodyMapMuscles[muscle]
+
+        ||
+
+        muscle;
+
+
+    showNotification(
+
+        title +
+
+        " seçildi."
+
+    );
+
+
+    openExercisePlanner(
+
+        muscle
+
+    );
+
+}
+
+
+
+// ---------- Bind SVG ----------
+
+function bindBodyMap(){
+
+    document
+
+    .querySelectorAll(
+
+        "[data-body-muscle]"
+
+    )
+
+    .forEach(part=>{
+
+
+        part.addEventListener(
+
+            "click",
+
+            ()=>{
+
+
+                selectBodyMuscle(
+
+                    part.dataset.bodyMuscle
+
+                );
+
+
+            }
+
+        );
+
+
+
+        part.addEventListener(
+
+            "mouseenter",
+
+            ()=>{
+
+
+                part.classList.add(
+
+                    "active-muscle"
+
+                );
+
+
+            }
+
+        );
+
+
+
+        part.addEventListener(
+
+            "mouseleave",
+
+            ()=>{
+
+
+                part.classList.remove(
+
+                    "active-muscle"
+
+                );
+
+
+            }
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Highlight ----------
+
+function highlightSelectedMuscle(){
+
+    document
+
+    .querySelectorAll(
+
+        "[data-body-muscle]"
+
+    )
+
+    .forEach(part=>{
+
+
+        if(
+
+            part.dataset.bodyMuscle
+
+            ===
+
+            selectedMuscle
+
+        ){
+
+            part.classList.add(
+
+                "selected-muscle"
+
+            );
+
+        }
+
+        else{
+
+            part.classList.remove(
+
+                "selected-muscle"
+
+            );
+
+        }
+
+
+    });
+
+}
+
+
+
+// ---------- Override ----------
+
+const oldSelectBodyMuscle =
+
+    selectBodyMuscle;
+
+
+
+selectBodyMuscle = function(muscle){
+
+    oldSelectBodyMuscle(
+
+        muscle
+
+    );
+
+
+    highlightSelectedMuscle();
+
+};
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindBodyMap();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (49-cu hissə)
+// Body Map (Front / Back Muscle Selector)
+// ===========================
+
+
+// ---------- Body Map ----------
+
+const bodyMapMuscles = {
+
+    chest:"Sinə",
+
+    back:"Kürək",
+
+    shoulders:"Çiyin",
+
+    biceps:"Biceps",
+
+    triceps:"Triceps",
+
+    forearm:"Bilək",
+
+    abs:"Qarın",
+
+    obliques:"Yan qarın",
+
+    traps:"Trapetsiya",
+
+    glutes:"Omba",
+
+    quads:"Ön bud",
+
+    hamstrings:"Arxa bud",
+
+    calves:"Baldır"
+
+};
+
+
+
+// ---------- Muscle Click ----------
+
+function selectBodyMuscle(muscle){
+
+    selectedMuscle = muscle;
+
+
+    const title =
+
+        bodyMapMuscles[muscle]
+
+        ||
+
+        muscle;
+
+
+    showNotification(
+
+        title +
+
+        " seçildi."
+
+    );
+
+
+    openExercisePlanner(
+
+        muscle
+
+    );
+
+}
+
+
+
+// ---------- Bind SVG ----------
+
+function bindBodyMap(){
+
+    document
+
+    .querySelectorAll(
+
+        "[data-body-muscle]"
+
+    )
+
+    .forEach(part=>{
+
+
+        part.addEventListener(
+
+            "click",
+
+            ()=>{
+
+
+                selectBodyMuscle(
+
+                    part.dataset.bodyMuscle
+
+                );
+
+
+            }
+
+        );
+
+
+
+        part.addEventListener(
+
+            "mouseenter",
+
+            ()=>{
+
+
+                part.classList.add(
+
+                    "active-muscle"
+
+                );
+
+
+            }
+
+        );
+
+
+
+        part.addEventListener(
+
+            "mouseleave",
+
+            ()=>{
+
+
+                part.classList.remove(
+
+                    "active-muscle"
+
+                );
+
+
+            }
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Highlight ----------
+
+function highlightSelectedMuscle(){
+
+    document
+
+    .querySelectorAll(
+
+        "[data-body-muscle]"
+
+    )
+
+    .forEach(part=>{
+
+
+        if(
+
+            part.dataset.bodyMuscle
+
+            ===
+
+            selectedMuscle
+
+        ){
+
+            part.classList.add(
+
+                "selected-muscle"
+
+            );
+
+        }
+
+        else{
+
+            part.classList.remove(
+
+                "selected-muscle"
+
+            );
+
+        }
+
+
+    });
+
+}
+
+
+
+// ---------- Override ----------
+
+const oldSelectBodyMuscle =
+
+    selectBodyMuscle;
+
+
+
+selectBodyMuscle = function(muscle){
+
+    oldSelectBodyMuscle(
+
+        muscle
+
+    );
+
+
+    highlightSelectedMuscle();
+
+};
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindBodyMap();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (50-ci hissə)
+// Daily Challenge + Daily Reward
+// ===========================
+
+
+// ---------- Daily Challenge ----------
+
+let dailyChallenge = JSON.parse(
+
+    localStorage.getItem(
+
+        "olygym-daily-challenge"
+
+    )
+
+) || {
+
+    date:null,
+
+    title:"",
+
+    completed:false,
+
+    reward:50
+
+};
+
+
+
+// ---------- Challenge Pool ----------
+
+const challengePool = [
+
+    "20 Push Up",
+
+    "30 Squat",
+
+    "60 saniyə Plank",
+
+    "15 Pull Up",
+
+    "50 Jumping Jack",
+
+    "25 Crunch",
+
+    "40 Mountain Climber"
+
+];
+
+
+
+// ---------- Generate ----------
+
+function generateDailyChallenge(){
+
+    const today =
+
+        new Date()
+
+        .toISOString()
+
+        .split("T")[0];
+
+
+    if(
+
+        dailyChallenge.date === today
+
+    ){
+
+        return;
+
+    }
+
+
+    dailyChallenge = {
+
+        date:today,
+
+        title:
+
+            challengePool[
+
+                Math.floor(
+
+                    Math.random()
+
+                    *
+
+                    challengePool.length
+
+                )
+
+            ],
+
+        completed:false,
+
+        reward:50
+
+    };
+
+
+    localStorage.setItem(
+
+        "olygym-daily-challenge",
+
+        JSON.stringify(
+
+            dailyChallenge
+
+        )
+
+    );
+
+}
+
+
+
+// ---------- UI ----------
+
+function updateDailyChallenge(){
+
+    const title =
+
+        document.getElementById(
+
+            "dailyChallenge"
+
+        );
+
+
+    const reward =
+
+        document.getElementById(
+
+            "challengeReward"
+
+        );
+
+
+    if(title){
+
+        title.textContent =
+
+            dailyChallenge.title;
+
+    }
+
+
+    if(reward){
+
+        reward.textContent =
+
+            "+" +
+
+            dailyChallenge.reward +
+
+            " XP";
+
+    }
+
+}
+
+
+
+// ---------- Complete ----------
+
+function completeDailyChallenge(){
+
+    if(
+
+        dailyChallenge.completed
+
+    ){
+
+        return;
+
+    }
+
+
+    dailyChallenge.completed = true;
+
+
+    addXP(
+
+        dailyChallenge.reward
+
+    );
+
+
+    localStorage.setItem(
+
+        "olygym-daily-challenge",
+
+        JSON.stringify(
+
+            dailyChallenge
+
+        )
+
+    );
+
+
+    showNotification(
+
+        "Daily Challenge tamamlandı!"
+
+    );
+
+
+    updateDailyChallenge();
+
+}
+
+
+
+// ---------- Button ----------
+
+function bindChallengeButton(){
+
+    const button =
+
+        document.getElementById(
+
+            "completeChallenge"
+
+        );
+
+
+    if(button){
+
+        button.addEventListener(
+
+            "click",
+
+            completeDailyChallenge
+
+        );
+
+    }
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        generateDailyChallenge();
+
+
+        updateDailyChallenge();
+
+
+        bindChallengeButton();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (51-ci hissə)
+// Workout Search + Exercise Filters
+// ===========================
+
+
+// ---------- Search ----------
+
+function searchExercises(keyword){
+
+    keyword =
+
+        keyword
+
+        .trim()
+
+        .toLowerCase();
+
+
+
+    const result = [];
+
+
+
+    Object.keys(
+
+        exerciseLibrary
+
+    )
+
+    .forEach(muscle=>{
+
+
+        exerciseLibrary[muscle]
+
+        .forEach(exercise=>{
+
+
+            if(
+
+                exercise.name
+
+                .toLowerCase()
+
+                .includes(keyword)
+
+            ){
+
+                result.push({
+
+                    muscle,
+
+                    ...exercise
+
+                });
+
+            }
+
+
+        });
+
+
+    });
+
+
+    return result;
+
+}
+
+
+
+// ---------- Render Search ----------
+
+function renderSearchResult(keyword){
+
+    const container =
+
+        document.getElementById(
+
+            "searchResult"
+
+        );
+
+
+    if(
+
+        !container
+
+    ){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    const result =
+
+        searchExercises(
+
+            keyword
+
+        );
+
+
+
+    result.forEach(item=>{
+
+
+        const card =
+
+            document.createElement(
+
+                "div"
+
+            );
+
+
+        card.className =
+
+            "search-card";
+
+
+        card.innerHTML =
+
+        `
+
+        <h3>
+
+            ${item.name}
+
+        </h3>
+
+        <p>
+
+            ${item.muscle}
+
+        </p>
+
+        <p>
+
+            🔥 ${item.kcal} kcal
+
+        </p>
+
+        `;
+
+
+        container.appendChild(
+
+            card
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Search Input ----------
+
+function bindSearch(){
+
+    const input =
+
+        document.getElementById(
+
+            "exerciseSearch"
+
+        );
+
+
+    if(
+
+        !input
+
+    ){
+
+        return;
+
+    }
+
+
+    input.addEventListener(
+
+        "input",
+
+        ()=>{
+
+
+            renderSearchResult(
+
+                input.value
+
+            );
+
+
+        }
+
+    );
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindSearch();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (52-ci hissə)
+// Favorites System
+// ===========================
+
+
+// ---------- Favorites ----------
+
+let favoriteExercises = JSON.parse(
+
+    localStorage.getItem(
+
+        "olygym-favorites"
+
+    )
+
+) || [];
+
+
+
+// ---------- Save ----------
+
+function saveFavorites(){
+
+    localStorage.setItem(
+
+        "olygym-favorites",
+
+        JSON.stringify(
+
+            favoriteExercises
+
+        )
+
+    );
+
+}
+
+
+
+// ---------- Add ----------
+
+function addFavoriteExercise(name){
+
+    if(
+
+        favoriteExercises.includes(
+
+            name
+
+        )
+
+    ){
+
+        return;
+
+    }
+
+
+    favoriteExercises.push(
+
+        name
+
+    );
+
+
+    saveFavorites();
+
+
+    renderFavoriteExercises();
+
+
+    showNotification(
+
+        "Favorilərə əlavə edildi."
+
+    );
+
+}
+
+
+
+// ---------- Remove ----------
+
+function removeFavoriteExercise(name){
+
+    favoriteExercises =
+
+        favoriteExercises.filter(
+
+            item=>
+
+            item!==name
+
+        );
+
+
+    saveFavorites();
+
+
+    renderFavoriteExercises();
+
+}
+
+
+
+// ---------- Render ----------
+
+function renderFavoriteExercises(){
+
+    const container =
+
+        document.getElementById(
+
+            "favoriteList"
+
+        );
+
+
+    if(
+
+        !container
+
+    ){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    favoriteExercises.forEach(item=>{
+
+
+        const card =
+
+            document.createElement(
+
+                "div"
+
+            );
+
+
+        card.className =
+
+            "favorite-card";
+
+
+        card.innerHTML =
+
+        `
+
+        <h3>
+
+            ${item}
+
+        </h3>
+
+        <button
+
+            data-remove-favorite="${item}"
+
+        >
+
+            Sil
+
+        </button>
+
+        `;
+
+
+        container.appendChild(
+
+            card
+
+        );
+
+
+    });
+
+
+    bindFavoriteButtons();
+
+}
+
+
+
+// ---------- Buttons ----------
+
+function bindFavoriteButtons(){
+
+    document
+
+    .querySelectorAll(
+
+        "[data-remove-favorite]"
+
+    )
+
+    .forEach(button=>{
+
+
+        button.addEventListener(
+
+            "click",
+
+            ()=>{
+
+
+                removeFavoriteExercise(
+
+                    button.dataset.removeFavorite
+
+                );
+
+
+            }
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        renderFavoriteExercises();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (53-cü hissə)
+// Progress Photos & Videos (Local)
+// ===========================
+
+
+// ---------- Progress Media ----------
+
+let progressMedia = JSON.parse(
+
+    localStorage.getItem(
+
+        "olygym-progress-media"
+
+    )
+
+) || [];
+
+
+
+// ---------- Save ----------
+
+function saveProgressMedia(){
+
+    localStorage.setItem(
+
+        "olygym-progress-media",
+
+        JSON.stringify(
+
+            progressMedia
+
+        )
+
+    );
+
+}
+
+
+
+// ---------- Upload ----------
+
+function uploadProgressMedia(file){
+
+    if(!file){
+
+        return;
+
+    }
+
+
+    const reader =
+
+        new FileReader();
+
+
+    reader.onload = ()=>{
+
+
+        progressMedia.unshift({
+
+            id:Date.now(),
+
+            type:file.type.startsWith("video")
+
+                ? "video"
+
+                : "image",
+
+            src:reader.result,
+
+            date:new Date()
+
+                .toLocaleDateString()
+
+        });
+
+
+        saveProgressMedia();
+
+
+        renderProgressMedia();
+
+
+        showNotification(
+
+            "Progress əlavə edildi."
+
+        );
+
+
+    };
+
+
+    reader.readAsDataURL(file);
+
+}
+
+
+
+// ---------- Render ----------
+
+function renderProgressMedia(){
+
+    const container =
+
+        document.getElementById(
+
+            "progressGallery"
+
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+
+    progressMedia.forEach(item=>{
+
+
+        const card =
+
+            document.createElement("div");
+
+
+        card.className =
+
+            "progress-card";
+
+
+        if(item.type==="image"){
+
+            card.innerHTML =
+
+            `
+
+            <img
+
+                src="${item.src}"
+
+                alt="Progress"
+
+            >
+
+            <p>${item.date}</p>
+
+            `;
+
+        }
+
+        else{
+
+            card.innerHTML =
+
+            `
+
+            <video
+
+                controls
+
+                src="${item.src}"
+
+            ></video>
+
+            <p>${item.date}</p>
+
+            `;
+
+        }
+
+
+        container.appendChild(card);
+
+
+    });
+
+}
+
+
+
+// ---------- Input ----------
+
+function bindProgressUpload(){
+
+    const input =
+
+        document.getElementById(
+
+            "progressUpload"
+
+        );
+
+
+    if(!input){
+
+        return;
+
+    }
+
+
+    input.addEventListener(
+
+        "change",
+
+        ()=>{
+
+
+            uploadProgressMedia(
+
+                input.files[0]
+
+            );
+
+
+        }
+
+    );
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        renderProgressMedia();
+
+
+        bindProgressUpload();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (54-cü hissə)
+// Workout History Filters + Export
+// ===========================
+
+
+// ---------- Filter ----------
+
+function filterWorkoutHistory(type){
+
+    if(
+
+        type==="all"
+
+    ){
+
+        return workoutHistory;
+
+    }
+
+
+    return workoutHistory.filter(
+
+        item=>
+
+        item.muscle===type
+
+    );
+
+}
+
+
+
+// ---------- Render ----------
+
+function renderFilteredWorkoutHistory(type){
+
+    const container =
+
+        document.getElementById(
+
+            "historyList"
+
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    container.innerHTML="";
+
+
+    filterWorkoutHistory(type)
+
+    .forEach(item=>{
+
+
+        const card =
+
+            document.createElement(
+
+                "div"
+
+            );
+
+
+        card.className=
+
+            "history-card";
+
+
+        card.innerHTML=
+
+        `
+
+        <h3>
+
+            ${item.exercise}
+
+        </h3>
+
+        <p>
+
+            ${item.muscle}
+
+        </p>
+
+        <p>
+
+            ${item.calories} kcal
+
+        </p>
+
+        <p>
+
+            ${item.date}
+
+        </p>
+
+        `;
+
+
+        container.appendChild(
+
+            card
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Export ----------
+
+function exportWorkoutHistory(){
+
+    const data =
+
+        JSON.stringify(
+
+            workoutHistory,
+
+            null,
+
+            2
+
+        );
+
+
+    const blob =
+
+        new Blob(
+
+            [data],
+
+            {
+
+                type:
+
+                "application/json"
+
+            }
+
+        );
+
+
+    const url =
+
+        URL.createObjectURL(
+
+            blob
+
+        );
+
+
+    const link =
+
+        document.createElement(
+
+            "a"
+
+        );
+
+
+    link.href = url;
+
+    link.download =
+
+        "olygym-history.json";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+
+        url
+
+    );
+
+
+    showNotification(
+
+        "Workout History export edildi."
+
+    );
+
+}
+
+
+
+// ---------- Export Button ----------
+
+function bindHistoryExport(){
+
+    const button =
+
+        document.getElementById(
+
+            "exportHistory"
+
+        );
+
+
+    if(button){
+
+        button.addEventListener(
+
+            "click",
+
+            exportWorkoutHistory
+
+        );
+
+    }
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindHistoryExport();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (55-ci hissə)
+// BMI Calculator + Health Status
+// ===========================
+
+
+// ---------- BMI ----------
+
+function calculateBMI(){
+
+    const weight =
+
+        Number(
+
+            profile.weight
+
+        );
+
+
+    const height =
+
+        Number(
+
+            profile.height
+
+        ) / 100;
+
+
+    if(
+
+        !weight ||
+
+        !height
+
+    ){
+
+        return null;
+
+    }
+
+
+    return (
+
+        weight /
+
+        (
+
+            height *
+
+            height
+
+        )
+
+    ).toFixed(1);
+
+}
+
+
+
+// ---------- BMI Status ----------
+
+function getBMIStatus(bmi){
+
+    bmi =
+
+        Number(bmi);
+
+
+    if(
+
+        bmi < 18.5
+
+    ){
+
+        return
+
+        "Çəki azdır";
+
+    }
+
+
+    if(
+
+        bmi < 25
+
+    ){
+
+        return
+
+        "Normal";
+
+    }
+
+
+    if(
+
+        bmi < 30
+
+    ){
+
+        return
+
+        "Artıq çəki";
+
+    }
+
+
+    return
+
+    "Piylənmə";
+
+}
+
+
+
+// ---------- Update ----------
+
+function updateBMI(){
+
+    const bmi =
+
+        calculateBMI();
+
+
+    const value =
+
+        document.getElementById(
+
+            "bmiValue"
+
+        );
+
+
+    const status =
+
+        document.getElementById(
+
+            "bmiStatus"
+
+        );
+
+
+    if(
+
+        !bmi
+
+    ){
+
+        return;
+
+    }
+
+
+    if(value){
+
+        value.textContent =
+
+            bmi;
+
+    }
+
+
+    if(status){
+
+        status.textContent =
+
+            getBMIStatus(
+
+                bmi
+
+            );
+
+    }
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        updateBMI();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (56-cı hissə)
+// Exercise Statistics + Muscle Analytics
+// ===========================
+
+
+// ---------- Muscle Statistics ----------
+
+function calculateMuscleStatistics(){
+
+    const statistics = {};
+
+
+
+    workoutHistory.forEach(item=>{
+
+
+        if(
+
+            !statistics[item.muscle]
+
+        ){
+
+            statistics[item.muscle] = {
+
+                workouts:0,
+
+                calories:0,
+
+                sets:0
+
+            };
+
+        }
+
+
+
+        statistics[item.muscle].workouts++;
+
+
+        statistics[item.muscle].calories +=
+
+            item.calories || 0;
+
+
+        statistics[item.muscle].sets +=
+
+            item.sets || 0;
+
+
+    });
+
+
+
+    return statistics;
+
+}
+
+
+
+// ---------- Render ----------
+
+function renderMuscleStatistics(){
+
+    const container =
+
+        document.getElementById(
+
+            "muscleStatistics"
+
+        );
+
+
+    if(!container){
+
+        return;
+
+    }
+
+
+    container.innerHTML = "";
+
+
+
+    const statistics =
+
+        calculateMuscleStatistics();
+
+
+
+    Object.keys(
+
+        statistics
+
+    ).forEach(muscle=>{
+
+
+        const stat =
+
+            statistics[muscle];
+
+
+        const card =
+
+            document.createElement(
+
+                "div"
+
+            );
+
+
+        card.className =
+
+            "muscle-stat-card";
+
+
+        card.innerHTML =
+
+        `
+
+        <h3>
+
+            ${muscle}
+
+        </h3>
+
+        <p>
+
+            Məşqlər:
+
+            ${stat.workouts}
+
+        </p>
+
+        <p>
+
+            Setlər:
+
+            ${stat.sets}
+
+        </p>
+
+        <p>
+
+            Kalori:
+
+            ${stat.calories} kcal
+
+        </p>
+
+        `;
+
+
+        container.appendChild(
+
+            card
+
+        );
+
+
+    });
+
+}
+
+
+
+// ---------- Most Trained ----------
+
+function getMostTrainedMuscle(){
+
+    const statistics =
+
+        calculateMuscleStatistics();
+
+
+    let best = null;
+
+
+    let max = 0;
+
+
+
+    Object.entries(
+
+        statistics
+
+    ).forEach(
+
+        ([muscle,data])=>{
+
+
+            if(
+
+                data.workouts >
+
+                max
+
+            ){
+
+                max =
+
+                    data.workouts;
+
+
+                best =
+
+                    muscle;
+
+            }
+
+
+        }
+
+    );
+
+
+    return best;
+
+}
+
+
+
+// ---------- Update Summary ----------
+
+function updateStatisticsSummary(){
+
+    const element =
+
+        document.getElementById(
+
+            "mostTrainedMuscle"
+
+        );
+
+
+    if(
+
+        element
+
+    ){
+
+        element.textContent =
+
+            getMostTrainedMuscle()
+
+            ||
+
+            "-";
+
+    }
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        renderMuscleStatistics();
+
+
+        updateStatisticsSummary();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (57-ci hissə)
+// Workout Goals + Goal Progress
+// ===========================
+
+
+// ---------- Goals ----------
+
+let workoutGoals = JSON.parse(
+
+    localStorage.getItem(
+
+        "olygym-workout-goals"
+
+    )
+
+) || {
+
+    weeklyWorkouts:5,
+
+    monthlyCalories:12000,
+
+    dailyWater:2500
+
+};
+
+
+
+// ---------- Save ----------
+
+function saveWorkoutGoals(){
+
+    localStorage.setItem(
+
+        "olygym-workout-goals",
+
+        JSON.stringify(
+
+            workoutGoals
+
+        )
+
+    );
+
+}
+
+
+
+// ---------- Weekly Progress ----------
+
+function getWeeklyWorkoutProgress(){
+
+    return Math.min(
+
+        workoutHistory.length,
+
+        workoutGoals.weeklyWorkouts
+
+    );
+
+}
+
+
+
+// ---------- Monthly Calories ----------
+
+function getMonthlyCaloriesProgress(){
+
+    return Math.min(
+
+        stats.calories,
+
+        workoutGoals.monthlyCalories
+
+    );
+
+}
+
+
+
+// ---------- Daily Water ----------
+
+function getDailyWaterProgress(){
+
+    return Math.min(
+
+        waterData.amount,
+
+        workoutGoals.dailyWater
+
+    );
+
+}
+
+
+
+// ---------- Update UI ----------
+
+function updateGoalProgress(){
+
+    const workout =
+
+        document.getElementById(
+
+            "goalWorkout"
+
+        );
+
+    const calories =
+
+        document.getElementById(
+
+            "goalCalories"
+
+        );
+
+    const water =
+
+        document.getElementById(
+
+            "goalWater"
+
+        );
+
+
+
+    if(workout){
+
+        workout.textContent =
+
+            `${getWeeklyWorkoutProgress()} / ${workoutGoals.weeklyWorkouts}`;
+
+    }
+
+
+
+    if(calories){
+
+        calories.textContent =
+
+            `${getMonthlyCaloriesProgress()} / ${workoutGoals.monthlyCalories}`;
+
+    }
+
+
+
+    if(water){
+
+        water.textContent =
+
+            `${getDailyWaterProgress()} / ${workoutGoals.dailyWater} ml`;
+
+    }
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        updateGoalProgress();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (58-ci hissə)
+// Data Backup + Restore
+// ===========================
+
+
+// ---------- Backup ----------
+
+function backupAllData(){
+
+    const backup = {
+
+        profile,
+
+        settings,
+
+        stats,
+
+        workoutHistory,
+
+        weeklySchedule,
+
+        reminders,
+
+        favoriteExercises,
+
+        customExercises,
+
+        progressMedia,
+
+        workoutGoals
+
+    };
+
+
+    const blob =
+
+        new Blob(
+
+            [
+
+                JSON.stringify(
+
+                    backup,
+
+                    null,
+
+                    2
+
+                )
+
+            ],
+
+            {
+
+                type:
+
+                "application/json"
+
+            }
+
+        );
+
+
+    const url =
+
+        URL.createObjectURL(
+
+            blob
+
+        );
+
+
+    const link =
+
+        document.createElement(
+
+            "a"
+
+        );
+
+
+    link.href =
+
+        url;
+
+
+    link.download =
+
+        "olygym-backup.json";
+
+
+    link.click();
+
+
+    URL.revokeObjectURL(
+
+        url
+
+    );
+
+
+    showNotification(
+
+        "Backup yaradıldı."
+
+    );
+
+}
+
+
+
+// ---------- Restore ----------
+
+function restoreBackup(file){
+
+    if(!file){
+
+        return;
+
+    }
+
+
+    const reader =
+
+        new FileReader();
+
+
+    reader.onload = ()=>{
+
+
+        try{
+
+
+            const data =
+
+                JSON.parse(
+
+                    reader.result
+
+                );
+
+
+            Object.assign(
+
+                profile,
+
+                data.profile || {}
+
+            );
+
+
+            Object.assign(
+
+                settings,
+
+                data.settings || {}
+
+            );
+
+
+            Object.assign(
+
+                stats,
+
+                data.stats || {}
+
+            );
+
+
+            workoutHistory =
+
+                data.workoutHistory || [];
+
+
+            weeklySchedule =
+
+                data.weeklySchedule || weeklySchedule;
+
+
+            reminders =
+
+                data.reminders || [];
+
+
+            favoriteExercises =
+
+                data.favoriteExercises || [];
+
+
+            customExercises =
+
+                data.customExercises || [];
+
+
+            progressMedia =
+
+                data.progressMedia || [];
+
+
+            workoutGoals =
+
+                data.workoutGoals || workoutGoals;
+
+
+            saveAllData();
+
+
+            showNotification(
+
+                "Backup bərpa edildi."
+
+            );
+
+
+            location.reload();
+
+
+        }
+
+        catch{
+
+
+            showNotification(
+
+                "Backup faylı yanlışdır."
+
+            );
+
+        }
+
+
+    };
+
+
+    reader.readAsText(
+
+        file
+
+    );
+
+}
+
+
+
+// ---------- Buttons ----------
+
+function bindBackupButtons(){
+
+    document
+
+        .getElementById(
+
+            "backupData"
+
+        )
+
+        ?.addEventListener(
+
+            "click",
+
+            backupAllData
+
+        );
+
+
+    document
+
+        .getElementById(
+
+            "restoreData"
+
+        )
+
+        ?.addEventListener(
+
+            "change",
+
+            event=>{
+
+
+                restoreBackup(
+
+                    event.target.files[0]
+
+                );
+
+
+            }
+
+        );
+
+}
+
+
+
+// ---------- Init ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        bindBackupButtons();
+
+
+    }
+
+);// ===========================
+// OlyGYM - script.js (59-cu hissə)
+// Application Initialization + Auto Save
+// ===========================
+
+
+// ---------- Initialize ----------
+
+function initializeApplication(){
+
+    loadProfile();
+
+    loadSettings();
+
+    loadStatistics();
+
+    renderWeeklySchedule();
+
+    renderFavoriteExercises();
+
+    renderProgressMedia();
+
+    renderMuscleStatistics();
+
+    updateDashboard();
+
+    updateBMI();
+
+    updateGoalProgress();
+
+    applyTranslations();
+
+    initializeMotivation();
+
+    generateDailyChallenge();
+
+}
+
+
+
+// ---------- Auto Save ----------
+
+function autoSaveApplication(){
+
+    saveProfile();
+
+    saveSettings();
+
+    saveStatistics();
+
+    saveWorkoutGoals();
+
+    saveFavorites();
+
+    saveProgressMedia();
+
+    saveWeeklySchedule();
+
+}
+
+
+
+// ---------- Auto Save Timer ----------
+
+setInterval(
+
+    autoSaveApplication,
+
+    30000
+
+);
+
+
+
+// ---------- Window Close ----------
+
+window.addEventListener(
+
+    "beforeunload",
+
+    ()=>{
+
+
+        autoSaveApplication();
+
+
+    }
+
+);
+
+
+
+// ---------- Application Ready ----------
+
+document.addEventListener(
+
+    "DOMContentLoaded",
+
+    ()=>{
+
+
+        initializeApplication();
+
+
+        console.log(
+
+            "OlyGYM initialized successfully."
+
+        );
+
+
+    }
+
+);
