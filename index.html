@@ -1,52 +1,320 @@
 <!DOCTYPE html>
 <html lang="az">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>OlyGYM</title>
-
-    <link rel="stylesheet" href="style.css">
+    <meta name="description" content="OlyGYM — məşq proqramı, progress izləmə, streaks, su və kalori hesablama platforması." />
+    <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
 
-    <!-- Loading Screen (sonra işlək edəcəyik) -->
-    <div id="loading-screen">
-        <h1>OlyGYM</h1>
-        <p id="motivation-text">Motivasiya...</p>
+    <!-- Loading / Motivation Screen -->
+    <div id="loading-screen" aria-hidden="true">
+        <div class="loading-box">
+            <h1 class="brand-title">OlyGYM</h1>
+            <p id="motivation-text">Sən güclüsən. Başla.</p>
+        </div>
     </div>
 
-    <!-- Ana səhifə -->
-    <main id="home-page">
+    <!-- Header -->
+    <header class="site-header">
+        <a class="logo" href="#home">OlyGYM</a>
 
-        <header>
-            <h1>OlyGYM</h1>
+        <nav class="site-nav" aria-label="Main navigation">
+            <a href="#home">Ana səhifə</a>
+            <a href="#login">Login</a>
+            <a href="#profile">Profil</a>
+            <a href="#workout">Məşq</a>
+            <a href="#plan">Həftəlik plan</a>
+            <a href="#settings">Settings</a>
+        </nav>
+    </header>
 
-            <nav>
-                <a href="#">Home</a>
-                <a href="#">Workout</a>
-                <a href="#">Profile</a>
-                <a href="#">Settings</a>
-            </nav>
-        </header>
+    <main>
 
-        <section class="hero">
+        <!-- Hero -->
+        <section class="hero" id="home">
+            <div class="hero-content">
+                <p class="hero-badge">FREE • Dark Theme • Fitness Planner</p>
+                <h1>Become Stronger Every Day</h1>
+                <p class="hero-text">
+                    Öz məşq proqramını qur, həftəlik plan hazırla, əzələ seç, set və reps təyin et,
+                    sonra inkişafını izləməyə başla.
+                </p>
 
-            <h2>Become Stronger Every Day</h2>
+                <div class="hero-actions">
+                    <button id="startBtn" class="primary-btn">Başla</button>
+                    <a href="#workout" class="secondary-link">Məşq bölməsinə keç</a>
+                </div>
+            </div>
+        </section>
 
-            <p>
-                Öz məşq proqramını hazırla, inkişafını izləməyə başla.
-            </p>
+        <!-- Quick Features -->
+        <section class="features section-pad">
+            <div class="section-title">
+                <h2>Qısa funksiyalar</h2>
+                <p>Sonradan dinamik olacaq əsas hissələr üçün hazır baza.</p>
+            </div>
 
-            <button id="startBtn">
-                Başla
-            </button>
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <h3>Streaks</h3>
+                    <p>Ardıcıl məşq günlərini izləmək üçün.</p>
+                </article>
 
+                <article class="feature-card">
+                    <h3>Su</h3>
+                    <p>Gündəlik su içməni qeyd etmək üçün.</p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>KKal</h3>
+                    <p>Yandırılan kaloriləri təxmini görmək üçün.</p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Progress</h3>
+                    <p>İrəliləyişini daha sonra rahat izləmək üçün.</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Login Preview -->
+        <section class="login-section section-pad" id="login">
+            <div class="section-title">
+                <h2>Login / Sign up</h2>
+                <p>Hələlik statik görünüş kimi hazırdır.</p>
+            </div>
+
+            <div class="card-panel two-col">
+                <form class="form-card">
+                    <h3>Daxil ol</h3>
+                    <label>
+                        E-mail
+                        <input type="email" placeholder="example@mail.com" />
+                    </label>
+
+                    <label>
+                        Şifrə
+                        <input type="password" placeholder="••••••••" />
+                    </label>
+
+                    <button type="button" class="primary-btn full-btn">Login</button>
+                </form>
+
+                <form class="form-card">
+                    <h3>Qeydiyyat</h3>
+                    <label>
+                        Ad
+                        <input type="text" placeholder="Adın" />
+                    </label>
+
+                    <label>
+                        E-mail
+                        <input type="email" placeholder="example@mail.com" />
+                    </label>
+
+                    <label>
+                        Şifrə
+                        <input type="password" placeholder="••••••••" />
+                    </label>
+
+                    <button type="button" class="primary-btn full-btn">Sign up</button>
+                </form>
+            </div>
+        </section>
+
+        <!-- Profile Preview -->
+        <section class="profile-section section-pad" id="profile">
+            <div class="section-title">
+                <h2>Profil</h2>
+                <p>Burada boy, çəki, yaş, cins və məqsəd sonradan saxlanacaq.</p>
+            </div>
+
+            <div class="card-panel profile-grid">
+                <div class="profile-box">
+                    <h3>İstifadəçi məlumatı</h3>
+                    <ul class="info-list">
+                        <li>Boy: —</li>
+                        <li>Çəki: —</li>
+                        <li>Yaş: —</li>
+                        <li>Cins: —</li>
+                    </ul>
+                </div>
+
+                <div class="profile-box">
+                    <h3>Məqsəd</h3>
+                    <p>Əzələ artırmaq / Arıqlamaq / Formda qalmaq</p>
+                    <button class="secondary-btn">Ən yaxşı məşq cədvəli</button>
+                </div>
+
+                <div class="profile-box">
+                    <h3>İrəliləyiş paylaş</h3>
+                    <p>Gələcəkdə şəkil və video story bölməsi burada olacaq.</p>
+                    <div class="story-placeholder">Story Preview</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Weekly Plan -->
+        <section class="plan-section section-pad" id="plan">
+            <div class="section-title">
+                <h2>7 Günlük Plan</h2>
+                <p>Hər gün üçün ayrıca məşq seçə biləcəyin bölmə.</p>
+            </div>
+
+            <div class="day-grid">
+                <button class="day-card">Bazar ertəsi</button>
+                <button class="day-card">Çərşənbə axşamı</button>
+                <button class="day-card">Çərşənbə</button>
+                <button class="day-card">Cümə axşamı</button>
+                <button class="day-card">Cümə</button>
+                <button class="day-card">Şənbə</button>
+                <button class="day-card">Bazar</button>
+            </div>
+        </section>
+
+        <!-- Muscles -->
+        <section class="muscles-section section-pad" id="muscles">
+            <div class="section-title">
+                <h2>Əzələ Seçimi</h2>
+                <p>Hələlik sadə kartlar şəklindədir. Sonra bədən xəritəsinə çevirəcəyik.</p>
+            </div>
+
+            <div class="muscle-grid">
+                <button class="muscle-card">Chest</button>
+                <button class="muscle-card">Back</button>
+                <button class="muscle-card">Shoulders</button>
+                <button class="muscle-card">Arms</button>
+                <button class="muscle-card">Abs</button>
+                <button class="muscle-card">Legs</button>
+                <button class="muscle-card">Full Body</button>
+                <button class="muscle-card">Cardio</button>
+            </div>
+
+            <div class="workout-note">
+                <p>Burada sonradan hər əzələ üçün ən azı 20 fənd, set, reps və kalori hesabı göstəriləcək.</p>
+            </div>
+        </section>
+
+        <!-- Workout -->
+        <section class="workout-section section-pad" id="workout">
+            <div class="section-title">
+                <h2>Məşq Proqramı</h2>
+                <p>Seçilən gün və əzələ üçün məşq detallarını burada göstərəcəyik.</p>
+            </div>
+
+            <div class="card-panel workout-box">
+                <div class="workout-row">
+                    <div>
+                        <h3>Seçilmiş gün</h3>
+                        <p>Hələ seçilməyib</p>
+                    </div>
+                    <div>
+                        <h3>Fasilə</h3>
+                        <p>1 dəqiqə 30 saniyə</p>
+                    </div>
+                </div>
+
+                <p class="workout-description">
+                    Setlər, reps, kalori yandırma, başlama düyməsi və timer burada olacaq.
+                </p>
+
+                <button class="primary-btn">Məşqə başla</button>
+            </div>
+        </section>
+
+        <!-- Stats -->
+        <section class="stats-section section-pad">
+            <div class="section-title">
+                <h2>İzləmə bölməsi</h2>
+                <p>Streak, su, kalori və progress üçün hazır statik görünüş.</p>
+            </div>
+
+            <div class="feature-grid">
+                <article class="feature-card">
+                    <h3>Streak</h3>
+                    <p>0 gün</p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Su</h3>
+                    <p>0 / 2.5 L</p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>KKal</h3>
+                    <p>0 kcal</p>
+                </article>
+
+                <article class="feature-card">
+                    <h3>Progress</h3>
+                    <p>Burada qrafik olacaq</p>
+                </article>
+            </div>
+        </section>
+
+        <!-- Settings -->
+        <section class="settings-section section-pad" id="settings">
+            <div class="section-title">
+                <h2>Settings</h2>
+                <p>Dil, theme, profil və digər seçimlər üçün bölmə.</p>
+            </div>
+
+            <div class="card-panel settings-grid">
+                <div class="settings-box">
+                    <h3>Theme</h3>
+                    <p>Dark / Light</p>
+                </div>
+
+                <div class="settings-box">
+                    <h3>Language</h3>
+                    <p>AZE / ENG / TUR / RUS</p>
+                </div>
+
+                <div class="settings-box">
+                    <h3>About</h3>
+                    <p>OlyGYM haqqında məlumat</p>
+                </div>
+
+                <div class="settings-box">
+                    <h3>Profile</h3>
+                    <p>Başqa profil yeri</p>
+                </div>
+
+                <div class="settings-box">
+                    <h3>Login / Sign up</h3>
+                    <p>Başqa giriş yeri</p>
+                </div>
+
+                <div class="settings-box">
+                    <h3>Weekly Plan</h3>
+                    <p>Həftəlik plan ayarı</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- About -->
+        <section class="about-section section-pad">
+            <div class="section-title">
+                <h2>Haqqımızda</h2>
+                <p>Bu hissə sonra daha dolu məzmuna çevriləcək.</p>
+            </div>
+
+            <div class="card-panel">
+                <p>
+                    OlyGYM — məşq planını rahat qurmaq, irəliləyişi izləmək və motivasiyanı qorumaq üçün hazırlanır.
+                </p>
+            </div>
         </section>
 
     </main>
 
-    <script src="script.js"></script>
+    <footer class="site-footer">
+        <p>© 2026 OlyGYM. All rights reserved.</p>
+    </footer>
 
+    <script src="script.js"></script>
 </body>
-</html> 
+</html>
