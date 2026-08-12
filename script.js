@@ -1,4 +1,45 @@
 // ===========================
+// OlyGYM - Notification System
+// ===========================
+
+function showNotification(message) {
+    let container = document.getElementById("notificationContainer");
+    
+    if (!container) {
+        container = document.createElement("div");
+        container.id = "notificationContainer";
+        container.style.cssText = `
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 9999;
+            max-width: 300px;
+        `;
+        document.body.appendChild(container);
+    }
+    
+    const notification = document.createElement("div");
+    notification.className = "notification";
+    notification.textContent = message;
+    notification.style.cssText = `
+        background: #4CAF50;
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        margin: 10px 0;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        animation: slideIn 0.3s ease-out;
+    `;
+    
+    container.appendChild(notification);
+    
+    setTimeout(() => {
+        notification.style.animation = "slideOut 0.3s ease-out";
+        setTimeout(() => notification.remove(), 300);
+    }, 3000);
+}
+
+// ===========================
 // OlyGYM - script.js (1-ci hissə)
 // Loading + Theme + Language
 // ===========================
@@ -427,35 +468,6 @@ const muscles = [
         title: "Yan Qarın"
     },
 
-    {
-        id: "legs",
-        title: "Ayaq"
-    },
-
-    {
-        id: "calves",
-        title: "Baldır"
-    },
-
-    {
-        id: "glutes",
-        title: "Glute"
-    },
-
-    {
-        id: "neck",
-        title: "Boyun"
-    }
-
-];
-
-
-// ---------- Exercise Library ----------
-
-const exerciseLibrary = {
-
-    chest: [
-
         {
             name:"Bench Press",
             kcal:8
@@ -646,56 +658,6 @@ function getExerciseList(id){
     return exerciseLibrary[id] || [];
 
 }
-
-
-
-// ---------- Day Buttons ----------
-
-function bindDayButtons(){
-
-    document.querySelectorAll(".day-card").forEach(card=>{
-
-        card.addEventListener("click",()=>{
-
-            document
-            .querySelectorAll(".day-card")
-            .forEach(item=>{
-
-                item.classList.remove("active-day");
-
-            });
-
-            card.classList.add("active-day");
-
-            selectedDay=
-                card.dataset.day;
-
-            currentWorkout.day=
-                selectedDay;
-
-            saveAllData();
-
-        });
-
-    });
-
-}
-
-
-
-// ---------- Init ----------
-
-document.addEventListener("DOMContentLoaded",()=>{
-
-    bindDayButtons();
-
-});// ===========================
-// OlyGYM - script.js (4-cü hissə)
-// Muscle Selection + Exercise UI
-// ===========================
-
-
-// ---------- Current Selection ----------
 
 let selectedMuscle = "";
 let selectedExercise = "";
@@ -12686,105 +12648,6 @@ function renderWeekBoxes(){
 
             box.dataset.day=index;
 
-
-            box.innerHTML=
-
-            `
-
-            <h3>
-
-                ${day}
-
-            </h3>
-
-
-            <p>
-
-                Plan seç
-
-            </p>
-
-            `;
-
-
-            container.appendChild(
-
-                box
-
-            );
-
-
-        }
-
-    );
-
-
-    bindWeekBoxes();
-
-}
-
-
-
-// ---------- Click ----------
-
-function bindWeekBoxes(){
-
-    document
-
-    .querySelectorAll(
-
-        ".week-box"
-
-    )
-
-    .forEach(box=>{
-
-
-        box.addEventListener(
-
-            "click",
-
-            ()=>{
-
-
-                openDayPlanner(
-
-                    Number(
-
-                        box.dataset.day
-
-                    )
-
-                );
-
-
-            }
-
-        );
-
-
-    });
-
-}
-
-
-
-// ---------- Day Planner ----------
-
-function openDayPlanner(day){
-
-    currentPlanningDay = day;
-
-
-    document
-
-    .getElementById(
-
-        "musclePlanner"
-
-    )
-
-    ?.classList
 
     .remove(
 
