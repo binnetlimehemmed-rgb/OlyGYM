@@ -8463,6 +8463,13 @@ function bindSyncButton(){
 
             "syncButton"
 
+            
+    saveWeeklySchedule();
+
+    renderWeeklySchedule();
+
+}
+
         );
 
 
