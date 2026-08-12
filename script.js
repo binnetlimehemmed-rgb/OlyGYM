@@ -8455,7 +8455,9 @@ function restoreSyncData(json){
 
 // ---------- Sync Button ----------
 
-function bindSyncButton(){
+function bindSyncButton(){    saveWeeklySchedule();
+    renderWeeklySchedule();
+                         }
 
     const button =
 
